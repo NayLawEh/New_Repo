@@ -153,3 +153,389 @@ print("---------------------------------------------")#print border/line
 print(f"Water (Q):             {Q:8.0f} lb") #Shows total water weight rounded
 print("---------------------------------------------")#print border/line
 print("End of Mix Design Summary") #print that summary is complete
+
+#Part 5 - Running Scenarios
+
+***********************************************************************************************************************************
+#Scenario 1
+# Final Table Output
+print("\nScenario 1: Standard Pavement Mix (NDOT Class 47B)") #print Scenario title
+print("Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf") #print source/link
+print("Use case: Concrete pavement, driveways, and sidewalks") #print use case
+print("""Inputs:  
+    Enter project number:  1 
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  47B
+    Enter cement weight A (lb per cubic yard):  564.0
+    Enter fly ash weight B (lb per cubic yard):  0
+    Enter silica fume weight C (lb per cubic yard):  0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.45
+    Enter target air content F (%):  6.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65""") #print inputs used
+
+
+print("Output table:") #print output title
+print(f"{'Component':<25} {'Weight (lb/yd³)':<20} {'Notes'}") #print variables and add width for columns
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Formatting each row with 1 decimal place and aligned columns
+print(f"{'Cement':<25} {cement_A:<20.1f} {'Variable A'}") #print variables and add width for columns
+print(f"{'Water':<25} {Q:<20.1f} {'Variable Q'}") #print variables and add width for columns
+print(f"{'Fine Aggregate':<25} {Y:<20.1f} {'Variable Y'}") #print variables and add width for columns
+print(f"{'Coarse Aggregate':<25} {Z:<20.1f} {'Variable Z'}") #print variables and add width for columns
+print(f"{'Other Aggregate':<25} {AA:<20.1f} {'Variable AA'}") #print variables and add width for columns
+print(f"{'Air (volumetric)':<25} {air_content_F:<20.1f} percent/ft³") #print variables and add width for columns
+
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Sanity Check Calculation
+total_weight = cement_A + fly_ash_B + silica_C + scm_D + Q + Y + Z + AA #calculate total weight
+print(f"{'Total (sanity check)':<25} {total_weight:<20.1f} {'Sum of all components'}") #print variables and add width for columns
+
+# Client Summary
+print("""\nSummary for Client: This concrete mix, known as NDOT Class 47B, is the standard 
+recipe used for Nebraska's roads and sidewalks to make sure they last a long time. It includes 
+6.0% air bubbles to give the concrete room to expand and shrink during our freezing winters, 
+preventing it from cracking. By keeping the water-to-cement ratio at 0.45, the mixture stays strong
+and thick rather than watery. We round all our numbers to one decimal place to be as exact as possible, 
+ensuring that every batch fills a 1-cubic-yard container (27.0 cubic feet) perfectly without any waste.""") #print summary
+
+# Result for running scenario 1 (Don't run markdown for formatting purposes)
+Scenario 1: Standard Pavement Mix (NDOT Class 47B)
+Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf
+Use case: Concrete pavement, driveways, and sidewalks
+Inputs: 
+    Enter project number:  1 
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  47B
+    Enter cement weight A (lb per cubic yard):  564.0
+    Enter fly ash weight B (lb per cubic yard):  0
+    Enter silica fume weight C (lb per cubic yard):  0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.45
+    Enter target air content F (%):  6.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65
+    
+Output table:
+Component                 Weight (lb/yd³)      Notes
+-----------------------------------------------------------------------------
+Cement                    564.0                Variable A
+Water                     253.8                Variable Q
+Fine Aggregate            904.6                Variable Y
+Coarse Aggregate          2134.9               Variable Z
+Other Aggregate           0.0                  Variable AA
+Air (volumetric)          6.0                  percent/ft³
+-----------------------------------------------------------------------------
+Total (sanity check)      3857.2               Sum of all components
+
+Summary for Client: This concrete mix, known as NDOT Class 47B, is the standard 
+recipe used for Nebraska's roads and sidewalks to make sure they last a long time. It includes 
+6.0% air bubbles to give the concrete room to expand and shrink during our freezing winters, 
+preventing it from cracking. By keeping the water-to-cement ratio at 0.45, the mixture stays strong
+and thick rather than watery. We round all our numbers to one decimal place to be as exact as possible, 
+ensuring that every batch fills a 1-cubic-yard container (27.0 cubic feet) perfectly without any waste.
+
+***********************************************************************************************************************************
+#Scenario 2
+# Final Table Output
+print("\nScenario 2: Bridge Deck/Pavement Mix with Fly Ash (NDOT Class 47BR)") #print Scenario title
+print("Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf") #print source/link
+print("Use case: Bridge decks, structural concrete, and pavement requiring enhanced durability") #print use case
+print("""Inputs: 
+    Enter project number:  2
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  47BR
+    Enter cement weight A (lb per cubic yard):  423.0
+    Enter fly ash weight B (lb per cubic yard):  141.0
+    Enter silica fume weight C (lb per cubic yard):  0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.45
+    Enter target air content F (%):  6.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65""") #print inputs used
+
+
+print("Output table:") #print output title
+print(f"{'Component':<25} {'Weight (lb/yd³)':<20} {'Notes'}") #print variables and add width for columns
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Formatting each row with 1 decimal place and aligned columns
+print(f"{'Cement':<25} {cement_A:<20.1f} {'Variable A'}") #print variables and add width for columns
+print(f"{'Water':<25} {Q:<20.1f} {'Variable Q'}") #print variables and add width for columns
+print(f"{'Fine Aggregate':<25} {Y:<20.1f} {'Variable Y'}") #print variables and add width for columns
+print(f"{'Coarse Aggregate':<25} {Z:<20.1f} {'Variable Z'}") #print variables and add width for columns
+print(f"{'Other Aggregate':<25} {AA:<20.1f} {'Variable AA'}") #print variables and add width for columns
+print(f"{'Air (volumetric)':<25} {air_content_F:<20.1f} percent/ft³") #print variables and add width for columns
+
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Sanity Check Calculation
+total_weight = cement_A + fly_ash_B + silica_C + scm_D + Q + Y + Z + AA #calculate total weight
+print(f"{'Total (sanity check)':<25} {total_weight:<20.1f} {'Sum of all components'}") #print variables and add width for columns
+
+# Client Summary
+print("""\nSummary for Client: This concrete mix, known as NDOT Class 47BR, is an environmentally 
+friendly version of our standard pavement recipe. We replaced 25% of the cement with Fly Ash, a 
+recycled material that makes the concrete stronger and more resistant to chemicals over time. It
+still uses 6.0% air bubbles to prevent cracking during freezing winters and keeps a 0.45 
+water-to-cement ratio to ensure the finished  product is solid and reliable.""") #print summary
+
+# Result for running scenario 2 (Don't run markdown for formatting purposes)
+Scenario 2: Bridge Deck/Pavement Mix with Fly Ash (NDOT Class 47BR)
+Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf
+Use case: Bridge decks, structural concrete, and pavement requiring enhanced durability
+Inputs: 
+    Enter project number:  2
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  47BR
+    Enter cement weight A (lb per cubic yard):  423.0
+    Enter fly ash weight B (lb per cubic yard):  141.0
+    Enter silica fume weight C (lb per cubic yard):  0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.45
+    Enter target air content F (%):  6.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65
+    
+Output table:
+Component                 Weight (lb/yd³)      Notes
+-----------------------------------------------------------------------------
+Cement                    423.0                Variable A
+Water                     253.8                Variable Q
+Fine Aggregate            891.6                Variable Y
+Coarse Aggregate          2104.2               Variable Z
+Other Aggregate           0.0                  Variable AA
+Air (volumetric)          6.0                  percent/ft³
+-----------------------------------------------------------------------------
+Total (sanity check)      3813.5               Sum of all components
+
+Summary for Client: This concrete mix, known as NDOT Class 47BR, is an environmentally 
+friendly version of our standard pavement recipe. We replaced 25% of the cement with Fly Ash, a 
+recycled material that makes the concrete stronger and more resistant to chemicals over time. It
+still uses 6.0% air bubbles to prevent cracking during freezing winters and keeps a 0.45 
+water-to-cement ratio to ensure the finished  product is solid and reliable.
+
+***********************************************************************************************************************************
+#Scenario 3
+# Final Table Output
+print("\nScenario 3: High Early Strength (NDOT Class 47B-HE)") #print Scenario title
+print("Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf") #print source/link
+print("Use case: Intersections and emergency road repairs") #print use case
+print("""Inputs: 
+    Enter project number:  3
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  47B-HE
+    Enter cement weight A (lb per cubic yard):  752.0
+    Enter fly ash weight B (lb per cubic yard):  0
+    Enter silica fume weight C (lb per cubic yard):  0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.40
+    Enter target air content F (%):  7.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65""") #print inputs used
+
+
+print("Output table:") #print output title
+print(f"{'Component':<25} {'Weight (lb/yd³)':<20} {'Notes'}") #print variables and add width for columns
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Formatting each row with 1 decimal place and aligned columns
+print(f"{'Cement':<25} {cement_A:<20.1f} {'Variable A'}") #print variables and add width for columns
+print(f"{'Water':<25} {Q:<20.1f} {'Variable Q'}") #print variables and add width for columns
+print(f"{'Fine Aggregate':<25} {Y:<20.1f} {'Variable Y'}") #print variables and add width for columns
+print(f"{'Coarse Aggregate':<25} {Z:<20.1f} {'Variable Z'}") #print variables and add width for columns
+print(f"{'Other Aggregate':<25} {AA:<20.1f} {'Variable AA'}") #print variables and add width for columns
+print(f"{'Air (volumetric)':<25} {air_content_F:<20.1f} percent/ft³") #print variables and add width for columns
+
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Sanity Check Calculation
+total_weight = cement_A + fly_ash_B + silica_C + scm_D + Q + Y + Z + AA #calculate total weight
+print(f"{'Total (sanity check)':<25} {total_weight:<20.1f} {'Sum of all components'}") #print variables and add width for columns
+
+# Client Summary
+print("""\nSummary for Client: This is a "High Early" strength mix designed for speed.
+By increasing the cement content to 752 lb/yd^3 and lowering the water ratio, we 
+accelerate the chemical reaction. This allows the concrete to reach its required strength 
+much faster than normal, meaning a road can be reopened to traffic in days instead of weeks.""") #print summary
+
+# Result for running scenario 3 (Don't run markdown for formatting purposes)
+Scenario 3: High Early Strength (NDOT Class 47B-HE)
+Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf
+Use case: Intersections and emergency road repairs
+Inputs: 
+    Enter project number:  3
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  47B-HE
+    Enter cement weight A (lb per cubic yard):  752.0
+    Enter fly ash weight B (lb per cubic yard):  0
+    Enter silica fume weight C (lb per cubic yard):  0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.40
+    Enter target air content F (%):  7.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65
+    
+Output table:
+Component                 Weight (lb/yd³)      Notes
+-----------------------------------------------------------------------------
+Cement                    752.0                Variable A
+Water                     300.8                Variable Q
+Fine Aggregate            807.5                Variable Y
+Coarse Aggregate          1905.7               Variable Z
+Other Aggregate           0.0                  Variable AA
+Air (volumetric)          7.0                  percent/ft³
+-----------------------------------------------------------------------------
+Total (sanity check)      3766.0               Sum of all components
+
+Summary for Client: This is a "High Early" strength mix designed for speed.
+By increasing the cement content to 752 lb/yd^3 and lowering the water ratio, we 
+accelerate the chemical reaction. This allows the concrete to reach its required strength 
+much faster than normal, meaning a road can be reopened to traffic in days instead of weeks.
+
+***********************************************************************************************************************************
+#Scenario 4
+# Final Table Output
+print("\nScenario 4: Silica Fume/Bridge Overlay (NDOT Class SF)") #print Scenario title
+print("Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf") #print source/link
+print("Use case: Protective layers on bridge decks.") #print use case
+print("""Inputs: 
+    Enter project number:  4
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  SF
+    Enter cement weight A (lb per cubic yard):  589.0
+    Enter fly ash weight B (lb per cubic yard):  0
+    Enter silica fume weight C (lb per cubic yard):  45.0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.36
+    Enter target air content F (%):  7.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65""") #print inputs used
+
+
+print("Output table:") #print output title
+print(f"{'Component':<25} {'Weight (lb/yd³)':<20} {'Notes'}") #print variables and add width for columns
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Formatting each row with 1 decimal place and aligned columns
+print(f"{'Cement':<25} {cement_A:<20.1f} {'Variable A'}") #print variables and add width for columns
+print(f"{'Water':<25} {Q:<20.1f} {'Variable Q'}") #print variables and add width for columns
+print(f"{'Fine Aggregate':<25} {Y:<20.1f} {'Variable Y'}") #print variables and add width for columns
+print(f"{'Coarse Aggregate':<25} {Z:<20.1f} {'Variable Z'}") #print variables and add width for columns
+print(f"{'Other Aggregate':<25} {AA:<20.1f} {'Variable AA'}") #print variables and add width for columns
+print(f"{'Air (volumetric)':<25} {air_content_F:<20.1f} percent/ft³") #print variables and add width for columns
+
+print("-----------------------------------------------------------------------------") #print dash/line
+
+# Sanity Check Calculation
+total_weight = cement_A + fly_ash_B + silica_C + scm_D + Q + Y + Z + AA #calculate total weight
+print(f"{'Total (sanity check)':<25} {total_weight:<20.1f} {'Sum of all components'}") #print variables and add width for columns
+
+# Client Summary
+print("""\nSummary for Client: This is a specialized High-Performance Concrete that includes
+Silica Fume. Silica fume is 100 times finer than cement; it fills the tiny gaps in the concrete
+to make it nearly waterproof. This prevents road salt and moisture from reaching the steel
+reinforcement inside a bridge, significantly extending the life of the structure.""") #print summary
+
+# Result for running scenario 4 (Don't run markdown for formatting purposes)
+Scenario 4: Silica Fume/Bridge Overlay (NDOT Class SF)
+Source: https://dot.nebraska.gov/media/g4qp4y0d/2017-specbook.pdf
+Use case: Protective layers on bridge decks.
+Inputs: 
+    Enter project number:  4
+    Enter control number:  123
+    Enter class of concrete (e.g., 47B, 47BR):  SF
+    Enter cement weight A (lb per cubic yard):  589.0
+    Enter fly ash weight B (lb per cubic yard):  0
+    Enter silica fume weight C (lb per cubic yard):  45.0
+    Enter other SCM weight D (lb per cubic yard):  0
+    Enter target water-cement ratio E:  0.36
+    Enter target air content F (%):  7.0
+    Enter percent fine aggregate G (%):  30.0
+    Enter percent coarse aggregate H (%):  70.0
+    Enter percent other aggregate I (%):  0
+    Enter specific gravity of cement J:  3.15
+    Enter specific gravity of fly ash K:  2.30
+    Enter specific gravity of silica fume L:  2.20
+    Enter specific gravity of other SCM M:  2.90
+    Enter specific gravity of fine aggregate N:  2.62
+    Enter specific gravity of coarse aggregate O:  2.65
+    Enter specific gravity of other aggregate P:  2.65
+    
+Output table:
+Component                 Weight (lb/yd³)      Notes
+-----------------------------------------------------------------------------
+Cement                    589.0                Variable A
+Water                     228.2                Variable Q
+Fine Aggregate            889.1                Variable Y
+Coarse Aggregate          2098.3               Variable Z
+Other Aggregate           0.0                  Variable AA
+Air (volumetric)          7.0                  percent/ft³
+-----------------------------------------------------------------------------
+Total (sanity check)      3849.7               Sum of all components
+
+Summary for Client: This is a specialized High-Performance Concrete that includes
+Silica Fume. Silica fume is 100 times finer than cement; it fills the tiny gaps in the concrete
+to make it nearly waterproof. This prevents road salt and moisture from reaching the steel
+reinforcement inside a bridge, significantly extending the life of the structure.
+
+***********************************************************************************************************************************
