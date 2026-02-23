@@ -1,139 +1,155 @@
-# Part 1 - Setup
+#Part 1 - Setup
 
 import pandas as pd  # Import the pandas library for data manipulation (no use but good practice, and can be used for future data/mix scenrios)
 
-# Define physical constants used throughout the NDOT Mix Design logic
-cubic_yard_ft3 = 27.0    # Total volume in one cubic yard (expressed in cubic feet) 
-unit_weight_water = 62.4  # lb/ft^3 (unit weight of water)
+# Constants for NDOT Calculations
+cubic_yard_ft3 = 27.0  # Cubic feet in 1 cubic yard
+unit_weight_water = 62.4 # lb/ft^3 (unit weight of water)
 
-# Create a dictionary to document the meaning of every variable used in the model
-inputs_description = {                  #A labels list that connects the computer's code names (like cem_A) to real human words (like "Cement Weight")
-    "cem_A": "Weight of Cement (lb)",  # Variable A
-    "fly_B": "Weight of Fly Ash (lb)", # Variable B
-    "sil_C": "Weight of Silica Fume (lb)", # Variable C
-    "scm_D": "Weight of Other SCM (lb)",   # Variable D
-    "wc_E": "Water-Cementitious Ratio",    # Variable E
-    "air_F": "Target Air Content (%)",     # Variable F
-    "pct_G": "Fine Aggregate Proportion (%)",   # Variable G
-    "pct_H": "Coarse Aggregate Proportion (%)", # Variable H
-    "pct_I": "Other Aggregate Proportion (%)",  # Variable I
-    "sg_J": "Specific Gravity of Cement",       # Variable J
-    "sg_K": "Specific Gravity of Fly Ash",      # Variable K
-    "sg_L": "Specific Gravity of Silica Fume",  # Variable L
-    "sg_M": "Specific Gravity of Other SCM",    # Variable M
-    "sg_N": "Specific Gravity of Fine Agg",     # Variable N
-    "sg_O": "Specific Gravity of Coarse Agg",   # Variable O
-    "sg_P": "Specific Gravity of Other Agg"     # Variable P
-}
----
-# Part 2 - Calculation Functions
+#Variable and description
+# Inputs (A through P)
+    #cement_A: Weight of Cement (lb per cubic yard): Variable A
+    #fly_ash_B: Weight of Fly Ash (lb per cubic yard): Variable B
+    #silica_C: Weight of Silica Fume (lb per cubic yard): Variable C
+    #scm_D: Weight of Other SCM (lb per cubic yard): Variable D
+    #wc_ratio_E: Water-Cementitious Ratio: Variable E
+    #air_content_F: Target Air Content (%): Variable F
+    #percent_fine_G: Fine Aggregate Proportion (%): Variable G
+    #percent_coarse_H: Coarse Aggregate Proportion (%): Variable H
+    #percent_other_I: Other Aggregate Proportion (%): Variable I
+    #sg_cement_J: Specific Gravity of Cement: Variable J
+    #sg_fly_ash_K: Specific Gravity of Fly Ash: Variable K
+    #sg_silica_L: Specific Gravity of Silica Fume: Variable L
+    #sg_scm_M: Specific Gravity of Other SCM: Variable M
+    #sg_fine_N: Specific Gravity of Fine Aggregate: Variable N
+    #sg_coarse_O: Specific Gravity of Coarse Aggregate: Variable O
+    #sg_other_P: Specific Gravity of Other Aggregate: Variable P
 
-# Function to calculate the total required water weight (Variable Q)
-def calc_water_weight_Q(A, B, C, D, E):   # defined function to preform calulation - Excel Formula Q: (Cement + SCMs) * Water-Cement Ratio
-    
-    return (A + B + C + D) * E  # result of calculations
+# Calculated Results (Q through AA)
+    #Q: Total Weight of Water (lb)
+    #R: Volume of Cement (ft^3)
+    #S: Volume of Fly Ash (ft^3)
+    #T: Volume of Silica Fume (ft^3)
+    #U: Volume of Other SCM (ft^3)
+    #V: Volume of Air (ft^3)
+    #W: Volume of Water (ft^3)
+    #X: Total Volume of Aggregates (ft^3)
+    #Y: Final Weight of Fine Aggregate (lb)
+    #Z: Final Weight of Coarse Aggregate (lb)
+    #AA: Final Weight of Other Aggregate (lb)
 
-# Function to convert a material's weight into volume ft^3 (All the equations for this calcution is the same, thus only one function)
-def calc_vol(weight, sg):                 # defined function to preform calulation - Calculates Volume using: Weight / (Specific Gravity * 62.4)
-    
-    return weight / (sg * unit_weight_water)  # result of calculations
+#Part 2 - Calculation Function
 
-# Function to calculate the volume of air ft^3 (Variable V)
-def calc_air_vol_V(percent_F):            # defined function to preform calulation - Calculates Air Volume: (Air % / 100) * 27 cubic feet
-   
-    return (percent_F / 100) * cubic_yard_ft3  # result of calculations
+#Define functions
+def calculate_water_weight_Q(cement_A, fly_ash_B, silica_C, scm_D, wc_ratio_E): #defines the function & requires input
+    water_weight_Q = (cement_A + fly_ash_B + silica_C + scm_D) * wc_ratio_E #does the calculations for eqaution
+    return water_weight_Q #output weight of water lb
 
-#Function to calculate the the volume of water ft^3 (Variable W)
-def calc_water_vol_W(weight_Q):          # defined function to preform calulation - Excel Formula W: Weight of Water / 62.4
-    
-    return weight_Q / unit_weight_water # result of calculations
+def calculate_volume_cement_R(cement_A, sg_cement_J):  #defines the function & requires input
+    volume_cement_R = cement_A / (sg_cement_J * unit_weight_water) #does the calculations for eqaution
+    return volume_cement_R #output volume of cement ft^3
 
-# Function to find the volume remaining for aggregates ft^3 (Variable X)
-def calc_agg_vol_X(R, S, T, U, V, W):     # defined function to preform calulation - Calculates remaining volume: 27 - (Sum of all other component volumes)
-    
-    return cubic_yard_ft3 - (R + S + T + U + V + W)  # result of calculations
+def calculate_volume_fly_ash_S(fly_ash_B, sg_fly_ash_K):  #defines the function & requires input
+    volume_fly_ash_S = fly_ash_B / (sg_fly_ash_K * unit_weight_water) #does the calculations for eqaution
+    return volume_fly_ash_S #output volume of fly ash ft^3
 
-# Function to calculate final aggregate weights Variables Y, Z, AA (All the equations for this calcution is the same, thus only one function)
-def calc_agg_weight(percent, sg, total_agg_vol_X):   # defined function to preform calulation - Calculates weight: 62.4 * (Percent/100) * SG * Aggregate Volume X
-   
-    return unit_weight_water * (percent / 100) * sg * total_agg_vol_X  # result of calculations
+def calculate_volume_silica_T(silica_C, sg_silica_L): #defines the function & requires input
+    volume_silica_T = silica_C / (sg_silica_L * unit_weight_water) #does the calculations for eqaution
+    return volume_silica_T #output volume of silica fume ft^3
 
----
-# Part 3 - User Input
+def calculate_volume_scm_U(scm_D, sg_scm_M): #defines the function & requires input
+    volume_scm_U = scm_D / (sg_scm_M * unit_weight_water) #does the calculations for eqaution
+    return volume_scm_U #output volume of other scm ft^3
 
-print("NDOT Mix Design Input Session")  # Print session header
-print("-" * 30)                        # Print separator line (dash 30 times)
+def air_volume_V(air_content_F): #defines the function & requires input
+    volume_V = (air_content_F / 100) * cubic_yard_ft3 #does the calculations for eqaution
+    return volume_V #output volume of air ft^3
 
-# Collect User information input
-proj_no = input("Enter Project Number: ")          # Prompt for the project ID number
-conc_class = input("Enter Class of Concrete: ")     # Prompt for the concrete classification (e.g., 47B)
+def water_volume_W(water_weight_Q): #defines the function & requires input
+    volume_W = (water_weight_Q) / unit_weight_water #does the calculations for eqaution
+    return volume_W #output volume of water ft^3
 
-cem_A = float(input("Enter Cement Weight A (lb): "))     # Convert cement weight input to decimal number & prompt for cement weight
-fly_B = float(input("Enter Fly Ash Weight B (lb): "))      # Convert fly ash weight input to decimal number & prompt for Fly Ash weight
-sil_C = float(input("Enter Silica Fume Weight C (lb): "))  # Convert silica fume weight input to decimal number & prompt for Silica Fume weight
-scm_D = float(input("Enter Other SCM Weight D (lb): "))    # Convert other SCM weight input to decimal number & prompt for Other SCM weight
+def calculate_aggregate_volume_X(volume_R, volume_S, volume_T, volume_U, volume_V, volume_W): #defines the function & requires input
+    volume_X = (cubic_yard_ft3 - volume_R - volume_S - volume_T - volume_U - volume_V - volume_W) #does the calculations for eqaution
+    return volume_X #output volume of total aggregates ft^3
 
-wc_E = float(input("Enter Water-Cement Ratio E: "))    # Convert water-cement ratio to decimal number & prompt for Water-Cement Ratio
-air_F = float(input("Enter Target Air Content F (%): ")) # Convert target air percentage to decimal number & prompt for Air Content
+def calculate_fine_aggregate_Y(percent_fine_G, sg_fine_N, volume_X): #defines the function & requires input
+    weight_Y = unit_weight_water * (percent_fine_G / 100) * sg_fine_N * volume_X #does the calculations for eqaution
+    return weight_Y #output weight of fine aggregate lb
 
-sg_J = float(input("Enter SG of Cement (J): "))       # Convert to decimal number & prompt specific gravity for cement
-sg_K = float(input("Enter SG of Fly Ash (K): "))      # Convert to decimal number & prompt specific gravity for fly ash
-sg_L = float(input("Enter SG of Silica Fume (L): "))  # Convert to decimal number & prompt specific gravity for silica fume
-sg_M = float(input("Enter SG of Other SCM (M): "))    # Convert to decimal number & prompt specific gravity for other SCMs
-sg_N = float(input("Enter SG of Fine Agg (N): "))     # Convert to decimal number & prompt specific gravity for fine aggregate
-sg_O = float(input("Enter SG of Coarse Agg (O): "))   # Convert to decimal number & prompt specific gravity for coarse aggregate
-sg_P = float(input("Enter SG of Other Agg (P): "))    # Convert to decimal number & prompt specific gravity for any additional aggregate
+def calculate_coarse_aggregate_Z(percent_coarse_H, sg_coarse_O, volume_X): #defines the function & requires input
+    weight_Z = unit_weight_water * (percent_coarse_H / 100) * sg_coarse_O * volume_X #does the calculations for eqaution
+    return weight_Z #output weight of coarse aggregate lb
 
-pct_G = float(input("Enter Fine Aggregate % (G): "))    # Convert to decimal number & prompt what % of total aggregate is fine
-pct_H = float(input("Enter Coarse Aggregate % (H): "))  # Convert to decimal number & prompt what % of total aggregate is coarse
-pct_I = float(input("Enter Other Aggregate % (I): "))   # Convert to decimal number & prompt what % of total aggregate is other
+def calculate_other_aggregate_AA(percent_other_I, sg_other_P, volume_X): #defines the function & requires input
+    weight_AA = unit_weight_water * (percent_other_I / 100) * sg_other_P * volume_X #does the calculations for eqaution
+    return weight_AA #output weight of other aggregate lb
 
----
-# Part 4 - Running Complete Mix Design
+#Part 3 - Sequential User Inputs
 
-# Calculate the total weight of water needed
-weight_Q = calc_water_weight_Q(cem_A, fly_B, sil_C, scm_D, wc_E)
+# Ask user for input
+project_number = int(input("Enter project number: ")) #turns input into a number asking for input
+control_number = int(input("Enter control number: ")) #turns input into a number asking for input
+class_of_concrete = input("Enter class of concrete (e.g., 47B, 47BR): ") #ask for input
 
-# Calculate volumes for every non-aggregate component
-vol_R = calc_vol(cem_A, sg_J)      # Volume of Cement (R)
-vol_S = calc_vol(fly_B, sg_K)      # Volume of Fly Ash (S)
-vol_T = calc_vol(sil_C, sg_L)      # Volume of Silica Fume (T)
-vol_U = calc_vol(scm_D, sg_M)      # Volume of Other SCM (U)
-vol_V = calc_air_vol_V(air_F)      # Volume of Air (V)
-vol_W = weight_Q / unit_weight_water # Volume of Water (W) based on weight / 62.4
+cement_A = float(input("Enter cement weight A (lb per cubic yard): ")) #turns input into a decimal asking forr input
+fly_ash_B = float(input("Enter fly ash weight B (lb per cubic yard): ")) #turns input into a decimal asking forr input
+silica_C = float(input("Enter silica fume weight C (lb per cubic yard): ")) #turns input into a decimal asking forr input
+scm_D = float(input("Enter other SCM weight D (lb per cubic yard): ")) #turns input into a decimal asking forr input
 
-# Find the total volume available for all aggregates
-vol_X = calc_agg_vol_X(vol_R, vol_S, vol_T, vol_U, vol_V, vol_W)
+wc_ratio_E = float(input("Enter target water-cement ratio E: ")) #turns input into a decimal asking forr input
+air_content_F = float(input("Enter target air content F (%): ")) #turns input into a decimal asking forr input
 
-# Calculate final weights for each aggregate type
-weight_Y = calc_agg_weight(pct_G, sg_N, vol_X)   # Final Weight of Fine Aggregate (Y)
-weight_Z = calc_agg_weight(pct_H, sg_O, vol_X)   # Final Weight of Coarse Aggregate (Z)
-weight_AA = calc_agg_weight(pct_I, sg_P, vol_X)  # Final Weight of Other Aggregate (AA)
+percent_fine_G = float(input("Enter percent fine aggregate G (%): ")) #turns input into a decimal asking forr input
+percent_coarse_H = float(input("Enter percent coarse aggregate H (%): ")) #turns input into a decimal asking forr input
+percent_other_I = float(input("Enter percent other aggregate I (%): ")) #turns input into a decimal asking forr input
+
+sg_cement_J = float(input("Enter specific gravity of cement J: ")) #turns input into a decimal asking forr input
+sg_fly_ash_K = float(input("Enter specific gravity of fly ash K: ")) #turns input into a decimal asking forr input
+sg_silica_L = float(input("Enter specific gravity of silica fume L: ")) #turns input into a decimal asking forr input
+sg_scm_M = float(input("Enter specific gravity of other SCM M: ")) #turns input into a decimal asking forr input
+
+sg_fine_N = float(input("Enter specific gravity of fine aggregate N: ")) #turns input into a decimal asking forr input
+sg_coarse_O = float(input("Enter specific gravity of coarse aggregate O: ")) #turns input into a decimal asking forr input
+sg_other_P = float(input("Enter specific gravity of other aggregate P: ")) #turns input into a decimal asking forr input
+
+#Part 4 - Running Complete Mix Design
+
+#Calculations
+Q = calculate_water_weight_Q(cement_A, fly_ash_B, silica_C, scm_D, wc_ratio_E) #calling function defined earlier to calulate & store the result
+
+R = calculate_volume_cement_R(cement_A, sg_cement_J) #calling function defined earlier to calulate & store the result
+S = calculate_volume_fly_ash_S(fly_ash_B, sg_fly_ash_K) #calling function defined earlier to calulate & store the result
+T = calculate_volume_silica_T(silica_C, sg_silica_L) #calling function defined earlier to calulate & store the result
+U = calculate_volume_scm_U(scm_D, sg_scm_M) #calling function defined earlier to calulate & store the result
+
+V = air_volume_V(air_content_F) #calling function defined earlier to calulate & store the result
+W = water_volume_W(Q) #calling function defined earlier to calulate & store the result
+
+X = calculate_aggregate_volume_X(R, S, T, U, V, W) #calling function defined earlier to calulate & store the result
+
+Y = calculate_fine_aggregate_Y(percent_fine_G, sg_fine_N, X) #calling function defined earlier to calulate & store the result
+Z = calculate_coarse_aggregate_Z(percent_coarse_H, sg_coarse_O, X) #calling function defined earlier to calulate & store the result
+AA = calculate_other_aggregate_AA(percent_other_I, sg_other_P, X) #calling function defined earlier to calulate & store the result
 
 # PROFESSIONAL OUTPUT
-
-print("\n" + "-" * 45)                           # Print top border
-print(" NDOT Concrete Mix Design – Weight Summary") # Print title
-print("         (1 Cubic Yard of Concrete)")     # Print volume basis
-print("-" * 45)                                   # Print separator (dash 45 times)
-print(f"Project Number:       {proj_no}")        # Print project number with alignment
-print(f"Class of Concrete:    {conc_class}")     # Print concrete class with alignment
-print("-" * 45)                                   # Print separator (dash 45 times)
-
-# Print Binders (rounded to 1 decimal place)
-print(f"{'Cement (A):':<25} {cem_A:10.1f} lb")    # Print cement weight & Give this text 25 spaces of room and align it to the left
-print(f"{'Fly Ash (B):':<25} {fly_B:10.1f} lb")   # Print fly ash weight Give this text 25 spaces of room and align it to the left
-print(f"{'Silica Fume (C):':<25} {sil_C:10.1f} lb") # Print silica fume weight
-print(f"{'Other SCM (D):':<25} {scm_D:10.1f} lb")   # Print other SCM weight
-print("-" * 45)                                   # Print separator (dash 45 times)
-
-# Print Aggregates (rounded to whole numbers per engineering standard)
-print(f"{'Fine Aggregate (Y):':<25} {weight_Y:10.0f} lb")   # Print fine aggregate weight
-print(f"{'Coarse Aggregate (Z):':<25} {weight_Z:10.0f} lb") # Print coarse aggregate weight
-print(f"{'Other Aggregate (AA):':<25} {weight_AA:10.0f} lb")# Print other aggregate weight
-print("-" * 45)                                   # Print separator (dash 45 times)
-
-# Print Water weight
-print(f"{'Water (Q):':<25} {weight_Q:10.1f} lb")  # Print final water weight
-print("-" * 45)                                   # Print bottom border (dash 45 times)
-print("End of Mix Design Summary")                # Print end of mix design summary
+print("\n---------------------------------------------") #print border/line
+print(" NDOT Concrete Mix Design – Weight Summary") #print title/header
+print("         (1 Cubic Yard of Concrete)") #print specific yield
+print("---------------------------------------------") #print border/line
+print(f"Project Number:       {project_number}") #Displays stored project number
+print(f"Control Number:       {control_number}") #Displays stored control number
+print(f"Class of Concrete:    {class_of_concrete}") #Displays stored class of concrete
+print("---------------------------------------------") #print border/line
+print(f"Cement (A):            {cement_A:8.1f} lb") #Shows cement A with 1 decimal
+print(f"Fly Ash (B):           {fly_ash_B:8.1f} lb") #Shows fly ash B with 1 decimal
+print(f"Silica Fume (C):       {silica_C:8.1f} lb") #Shows silica fume C with 1 decimal
+print(f"Other SCM (D):         {scm_D:8.1f} lb") #Shows other scm D with 1 decimal
+print("---------------------------------------------") #print border/line
+print(f"Fine Aggregate (Y):    {Y:8.0f} lb") #Shows rounded fine aggregate weight
+print(f"Coarse Aggregate (Z):  {Z:8.0f} lb") #Shows rounded coarse aggregate weight
+print(f"Other Aggregate (AA):  {AA:8.0f} lb") #Shows rounded other aggregate weight
+print("---------------------------------------------")#print border/line
+print(f"Water (Q):             {Q:8.0f} lb") #Shows total water weight rounded
+print("---------------------------------------------")#print border/line
+print("End of Mix Design Summary") #print that summary is complete
