@@ -31,4 +31,4 @@ This project aims to automate the NDOT concrete mix design process by converting
   - Enter specific gravity of coarse aggregate O:  2.65
   - Enter specific gravity of other aggregate P:  2.65
     
-  - After entering input, run the rest of the code. It will automatically do the calculations give the user a clearly formatted weight chart for one cubic yard of     concrete and Scenario calculations clearly formatted.
+  - After entering input, run the rest of the code. It will automatically do the calculations, give the user a clearly formatted weight chart for one cubic yard of     concrete and Scenario calculations clearly formatted.
