@@ -7,8 +7,13 @@ This Python Programming Assignment 2 is to share between classmates
 This project aims to automate the NDOT concrete mix design process by converting Excel-based logic into a functional Python program. We will create a code that prompts users to input design variables, such as cement content and air content. The program will use the absolute volume method to accurately calculate a weight chart for one cubic yard of concrete. To validate the tool's reliability, we will research and run four realistic engineering scenarios through the program to verify that the Python output aligns with the clients prompt.
 ---------------------------------------
 ## Content
-* Read Me file (summary of project 2)
-* Project 2 - Phython Code file (Code has 5 parts: Setup, Calculation Function, Sequential User Inputs, Running Complete Mix Design, and Running Scenarios)
+* Read Me file - summary of project 2
+* Scope of Work file - List of task responsible for
+* Annotated Code Document file - Each line of code explained
+* Gantt Chart file - Assign responsibilities and check progress
+* Technical Report file - Summary and disscusion of project 2 results
+* Collaborated Python Code file - used to share and make changes to the code while in working progess
+* Project 2 Phython Code file (Code has 5 parts: Setup, Calculation Function, Sequential User Inputs, Running Complete Mix Design, and Running Scenarios)
   - Run each section (Parts 1- 5) of the code until it prompts the user for input, for example.
   - Inputs: 
   - Enter project number:  1 
