@@ -9,7 +9,7 @@ This project aims to automate the NDOT concrete mix design process by converting
 ## Content
 * Read Me file (summary of project 2)
 * Project 2 - Phython Code file (Code has 5 parts: Setup, Calculation Function, Sequential User Inputs, Running Complete Mix Design, and Running Scenarios)
-  - Run each section (Parts 1- 5) of the code until it prompts the user for input for example.
+  - Run each section (Parts 1- 5) of the code until it prompts the user for input, for example.
   - Inputs: 
   - Enter project number:  1 
   - Enter control number:  123
